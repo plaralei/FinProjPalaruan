@@ -88,7 +88,7 @@ public class CheckingAccount extends BankAccounts {
      */
     @Override
     public String toString() {
-        String accountInfo = "\n--- Account Information ---" +
+        return "\n--- Account Information ---" +
                 "\nAccount Type: Checking Account" +
                 "\nAccount No: " + getAccountNo() +
                 "\nName: " + getAccountName() +
@@ -96,11 +96,8 @@ public class CheckingAccount extends BankAccounts {
                 "\nMinimum Balance: " + minimumBalance +
                 "\nAvailable for encashment: " + (super.inquireBalance() - minimumBalance) +
                 "\nStatus: " + getStatus();
-
-        System.out.println(accountInfo);
-        return accountInfo;
     }
-
+    
     /**
      * Display account capabilities
      */
