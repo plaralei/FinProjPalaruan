@@ -1,50 +1,26 @@
-/**
- * CheckingAccount - A specialized bank account for check transactions
- * Extends BankAccounts with check-specific functionality
- *
- * @author Student
- * @version 1.1
- */
+/*
 public class CheckingAccount extends BankAccounts {
     private double minimumBalance;
 
-    /**
-     * Default constructor
-     */
     public CheckingAccount() {
         super();
         this.minimumBalance = 0.0;
         addTransaction("Checking account created");
     }
 
-    /**
-     * Parameterized constructor
-     *
-     * @param accountNo      9-digit account number
-     * @param accountName    Name of the account holder
-     * @param minimumBalance Minimum balance required
-     */
+
     public CheckingAccount(int accountNo, String accountName, double minimumBalance) {
         super(accountNo, accountName);
         this.minimumBalance = minimumBalance;
         addTransaction("Checking account created with minimum balance: " + minimumBalance);
     }
 
-    /**
-     * Get the minimum balance
-     *
-     * @return The minimum balance
-     */
+
     public double getMinimumBalance() {
         return minimumBalance;
     }
 
-    /**
-     * Encash a check
-     *
-     * @param amount The amount to encash
-     * @throws IllegalArgumentException if amount exceeds balance or goes below minimum
-     */
+
     public void encashCheck(double amount) {
         if (getStatus().equals("closed")) {
             throw new IllegalArgumentException("Cannot encash check on a closed account.");
@@ -69,23 +45,14 @@ public class CheckingAccount extends BankAccounts {
         System.out.println("Available for encashment: " + (super.inquireBalance() - minimumBalance));
     }
 
-    /**
-     * Withdraw is not allowed for checking accounts
-     *
-     * @param amount The amount to withdraw
-     * @throws UnsupportedOperationException always
-     */
+
     @Override
     public void withdraw(double amount) {
         throw new UnsupportedOperationException("Direct withdrawals are not allowed for Checking Accounts. " +
                 "Please use encashCheck instead.");
     }
 
-    /**
-     * String representation of the checking account
-     *
-     * @return Formatted account information
-     */
+
     @Override
     public String toString() {
         return "\n--- Account Information ---" +
@@ -98,9 +65,7 @@ public class CheckingAccount extends BankAccounts {
                 "\nStatus: " + getStatus();
     }
     
-    /**
-     * Display account capabilities
-     */
+
     @Override
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
@@ -115,3 +80,4 @@ public class CheckingAccount extends BankAccounts {
         System.out.println("- Available for encashment:" + (super.inquireBalance() - minimumBalance));
     }
 }
+*/

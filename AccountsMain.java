@@ -1,4 +1,4 @@
-import java.util.Scanner;
+/* import java.util.Scanner;
 
 public class AccountsMain {
     private static BankAccounts[] bankAccounts = new BankAccounts[5];
@@ -250,3 +250,4 @@ public class AccountsMain {
         return null; // Account not found
     }
 }
+*/

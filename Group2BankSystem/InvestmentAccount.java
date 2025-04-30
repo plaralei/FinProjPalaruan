@@ -1,6 +1,6 @@
 package Group2BankSystem;
 
-import java.util.Date;
+import exceptions.AccountClosedException;
 
 public class InvestmentAccount extends BankAccount {
     private double interestRate;
@@ -13,7 +13,7 @@ public class InvestmentAccount extends BankAccount {
         this.totalInterestEarned = 0.0;
     }
 
-    public double computeMonthlyInterest() {
+    public double computeMonthlyInterest () throws AccountClosedException {
         if (!isActive) {
             return 0.0;
         }

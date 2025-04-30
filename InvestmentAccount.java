@@ -1,17 +1,9 @@
-/**
- * InvestmentAccount - A specialized bank account for investments
- * Extends BankAccounts with investment-specific functionality
- *
- * @author Student
- * @version 1.1
- */
+/*
 public class InvestmentAccount extends BankAccounts {
     private final double minimumBalance;
     private final double interest; // Interest rate (e.g., 0.10 for 10%)
 
-    /**
-     * Default constructor
-     */
+
     public InvestmentAccount() {
         super();
         this.minimumBalance = 0.0;
@@ -19,14 +11,7 @@ public class InvestmentAccount extends BankAccounts {
         addTransaction("Investment account created");
     }
 
-    /**
-     * Parameterized constructor
-     *
-     * @param accountNo      9-digit account number
-     * @param accountName    Name of the account holder
-     * @param minimumBalance Minimum balance required
-     * @param interest       Interest rate (as decimal)
-     */
+
     public InvestmentAccount(int accountNo, String accountName, double minimumBalance, double interest) {
         super(accountNo, accountName);
         this.minimumBalance = minimumBalance;
@@ -35,30 +20,17 @@ public class InvestmentAccount extends BankAccounts {
                 " and interest rate: " + (interest * 100) + "%");
     }
 
-    /**
-     * Get the minimum balance
-     *
-     * @return The minimum balance
-     */
+
     public double getMinimumBalance() {
         return minimumBalance;
     }
 
-    /**
-     * Get the interest rate
-     *
-     * @return The interest rate
-     */
+
     public double getInterest() {
         return interest;
     }
 
-    /**
-     * Add investment (replaces deposit)
-     *
-     * @param amount The amount to invest
-     * @throws IllegalArgumentException if amount is invalid
-     */
+
     public void addInvestment(double amount) {
         if (getStatus().equals("closed")) {
             throw new IllegalArgumentException("Cannot add investment to a closed account.");
@@ -73,11 +45,7 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("Current investment value: " + inquireInvestmentValue());
     }
 
-    /**
-     * Calculate and return investment value with interest
-     *
-     * @return Current investment value with interest
-     */
+
     public double inquireInvestmentValue() {
         double currentValue = super.inquireBalance() * (1 + interest);
         System.out.println("Account #" + getAccountNo() + " Investment Value: " + currentValue +
@@ -85,10 +53,7 @@ public class InvestmentAccount extends BankAccounts {
         return currentValue;
     }
 
-    /**
-     * Close the investment account
-     * Withdraws all money with interest before closing
-     */
+
     @Override
     public void closeAccount() {
         if (getStatus().equals("closed")) {
@@ -102,36 +67,20 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("Final investment value withdrawn: " + finalValue);
     }
 
-    /**
-     * Withdraw is not allowed for investment accounts
-     *
-     * @param amount The amount to withdraw
-     * @throws UnsupportedOperationException always
-     */
+
     @Override
     public void withdraw(double amount) {
         throw new UnsupportedOperationException("Withdrawals are not allowed for Investment Accounts. " +
                 "You can only close the account to withdraw funds.");
     }
 
-    /**
-     * Transfer is not allowed for investment accounts
-     *
-     * @param acctno The account number to transfer to
-     * @param amount The amount to transfer
-     * @throws UnsupportedOperationException always
-     */
+
     @Override
     public void transferMoney(int acctno, double amount) {
         throw new UnsupportedOperationException("Transfers are not allowed for Investment Accounts. " +
                 "You can only close the account to withdraw funds.");
     }
 
-    /**
-     * String representation of the investment account
-     *
-     * @return Formatted account information
-     */
     @Override
     public String toString() {
         String accountInfo = "\n--- Account Information ---" +
@@ -148,9 +97,7 @@ public class InvestmentAccount extends BankAccounts {
         return accountInfo;
     }
 
-    /**
-     * Display account capabilities
-     */
+
     @Override
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
@@ -164,3 +111,5 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("- Minimum balance requirement:" + minimumBalance);
     }
 }
+
+ */
