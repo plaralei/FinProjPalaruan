@@ -39,6 +39,27 @@ public class generateReport {
         }
     }
 
+    public static void reportPerAccount(BankAccounts[] accounts) {
+        System.out.println("\n=== Full Transaction Report Per Account ===");
+
+        for (BankAccounts account : accounts) {
+            if (account != null) {
+                System.out.println("\nAccount No: " + account.getAccountNo());
+                String[] history = account.getTransactionHistory();
+                if (history == null || history.length == 0) {
+                    System.out.println("  No transactions.");
+                    continue;
+                }
+
+                for (String t : history) {
+                    if (t != null && !t.trim().isEmpty()) {
+                        System.out.println("  " + t);
+                    }
+                }
+            }
+        }
+    }
+
     public static void keywordSearch(BankAccounts[] accounts, String keyword) {
         System.out.println("\n--- Keyword Search: \"" + keyword + "\" ---");
         for (BankAccounts account : accounts) {

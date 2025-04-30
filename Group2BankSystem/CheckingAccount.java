@@ -20,6 +20,7 @@ public class CheckingAccount extends BankAccount {
         return true;
     }
 
+
     public double getCreditBalance() {
         return balance + overdraftLimit;
     }
