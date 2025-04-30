@@ -23,17 +23,14 @@ public class GenerateReportPanel extends JPanel {
         title.setFont(new Font("Arial", Font.BOLD, 20));
         add(title, BorderLayout.NORTH);
 
-        // Create a table to display transactions
         String[] columnNames = {"Transaction ID", "Date", "Account Number", "Type", "Amount", "Description"};
         tableModel = new DefaultTableModel(columnNames, 0);
         transactionTable = new JTable(tableModel);
         loadTransactions();
 
-        // Add a scroll pane for the table
         JScrollPane scrollPane = new JScrollPane(transactionTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel for actions
         JPanel buttonPanel = new JPanel();
         JButton backBtn = new JButton("Back");
         JButton generateReportBtn = new JButton("Generate Report");
@@ -70,12 +67,12 @@ public class GenerateReportPanel extends JPanel {
         }
     }
 
-    // Transaction class to represent a transaction
+
     public static class Transaction implements Serializable {
         private String transactionId;
         private Date date;
         private String accountNumber;
-        private String type; // e.g., Deposit, Withdrawal, Transfer
+        private String type;
         private double amount;
         private String description;
 
