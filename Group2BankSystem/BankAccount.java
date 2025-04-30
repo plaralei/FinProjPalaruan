@@ -154,9 +154,6 @@ public class BankAccount implements Serializable {
                 isActive ? "Active" : "Closed");
     }
 
-    /**
-     * Display account capabilities
-     */
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
         System.out.println("This Bank Account allows:");
