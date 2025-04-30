@@ -72,7 +72,7 @@ public class ManageAccountPanel extends JPanel {
             BankAccount account = AccountManager.getAccountByNumber(accountNumber);
             if (account != null) {
 
-                EditAccountDIalog dialog = new EditAccountDIalog(account);
+                EditAccountDialog dialog = new EditAccountDialog(account);
                 dialog.setVisible(true);
                 if (dialog.isUpdated()) {
                     loadAccounts();

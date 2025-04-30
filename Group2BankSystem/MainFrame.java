@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
         cards = new JPanel(layout);
 
         cards.add(new CreateAccountPanel(this), CREATE);
-        cards.add(new EditAccountDIalog(this), MANAGE);
+        cards.add(new EditAccountDialog(this), MANAGE);
         cards.add(new SearchAccountPanel(this), SEARCH);
         cards.add(new GenerateReportPanel(this), GENERATE);
 

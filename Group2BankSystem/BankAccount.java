@@ -3,7 +3,7 @@ package Group2BankSystem;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BankAccount implements Serializable {
+public class BankAccount extends MainFrame implements Serializable {
     protected String accountNumber;
     protected String accountHolderName;
     protected double balance;
