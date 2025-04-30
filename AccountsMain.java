@@ -1,4 +1,10 @@
- import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.ArrayList.*;
+import java.util.Arrays.*;
+import java.util.List.*;
 
 public class AccountsMain {
     private static BankAccounts[] bankAccounts = new BankAccounts[5];
@@ -63,6 +69,7 @@ public class AccountsMain {
                     break;
                 case 11:
                     generateReports(scanner);
+                    break;
                 case 0:
                     System.out.println("Exiting the system. Thank you!");
                     break;
@@ -260,9 +267,15 @@ public class AccountsMain {
         int choice = scanner.nextInt();
         scanner.nextLine();
 
+        List<BankAccounts> allAccounts = new ArrayList<>();
+        Collections.addAll(allAccounts, bankAccounts);
+        Collections.addAll(allAccounts, investmentAccounts);
+        Collections.addAll(allAccounts, checkingAccounts);
+        Collections.addAll(allAccounts, creditCardAccounts);
+
         switch (choice) {
             case 1:
-                generateReport.dailyTransactions(bankAccounts);
+                generateReport.dailyTransactions(allAccounts);
                 break;
             case 2:
                 System.out.print("Enter account number: ");
@@ -276,18 +289,20 @@ public class AccountsMain {
                     scanner.nextLine();
                     System.out.print("Enter new transaction content: ");
                     String newEntry = scanner.nextLine();
-                    generateReport.editTransaction(account, index, newEntry);
+                    generateReport.editTransaction(allAccounts, accNo,index, newEntry);
+                } else {
+                    System.out.println("Account not found.");
                 }
                 break;
             case 3:
                 System.out.print("Enter transaction type keyword: ");
                 String type = scanner.nextLine();
-                generateReport.summaryByType(bankAccounts, type);
+                generateReport.summaryByType(allAccounts, type);
                 break;
             case 4:
                 System.out.print("Enter keyword to search: ");
                 String keyword = scanner.nextLine();
-                generateReport.keywordSearch(bankAccounts, keyword);
+                generateReport.keywordSearch(allAccounts, keyword);
                 break;
             default:
                 System.out.println("Invalid report option.");
