@@ -1,4 +1,5 @@
 package Group2BankSystem;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,12 +23,13 @@ public class MainFrame extends JFrame {
         cards = new JPanel(layout);
 
         cards.add(new CreateAccountPanel(this), CREATE);
-        cards.add(new EditAccountDialog(this), MANAGE);
+        cards.add(new ManageAccountPanel(this), MANAGE); // Use a JPanel instead of JDialog
         cards.add(new SearchAccountPanel(this), SEARCH);
         cards.add(new GenerateReportPanel(this), GENERATE);
 
+        // Create a panel for buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0, 1));
+        buttonPanel.setLayout(new GridLayout(0, 1)); // Vertical layout
         buttonPanel.setBackground(Color.BLUE);
 
         JButton createBtn = new JButton("Create Account");
@@ -60,8 +62,8 @@ public class MainFrame extends JFrame {
 
         // Set layout for the main frame
         setLayout(new BorderLayout());
-        add(buttonPanel, BorderLayout.WEST);
-        add(cards, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.WEST); // Add button panel to the left
+        add(cards, BorderLayout.CENTER); // Add cards panel to the center
 
         setVisible(true);
     }
@@ -72,3 +74,4 @@ public class MainFrame extends JFrame {
     public void showCard(String menu) {
     }
 }
+

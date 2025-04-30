@@ -35,7 +35,7 @@ public class ManageAccountPanel extends JPanel {
 
         editBtn.addActionListener(new EditAccountAction());
         deleteBtn.addActionListener(new DeleteAccountAction());
-        backBtn.addActionListener(e -> frame.show(Group2BankSystem.MainFrame.MENU));
+        backBtn.addActionListener(e -> frame.show());
 
         buttonPanel.add(editBtn);
         buttonPanel.add(deleteBtn);

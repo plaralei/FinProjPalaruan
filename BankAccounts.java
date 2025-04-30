@@ -1,10 +1,4 @@
-/**
- * BankAccounts - Super class that represents a basic bank account
- * This class serves as the parent class for specialized account types
- *
- * @author Student
- * @version 1.1
- */
+/*
 public class BankAccounts {
     private int accountNo; // 9 digits
     private String accountName;
@@ -14,10 +8,7 @@ public class BankAccounts {
     private int transactionCount;
     private static final int MAX_TRANSACTIONS = 10;
 
-    /**
-     * Default constructor
-     * Sets status to active and balance to 0
-     */
+
     public BankAccounts() {
         this.status = "active";
         this.balance = 0.0;
@@ -25,12 +16,7 @@ public class BankAccounts {
         this.transactionCount = 0;
     }
 
-    /**
-     * Parameterized constructor
-     *
-     * @param accountNo    9-digit account number
-     * @param accountName  Name of the account holder
-     */
+
     public BankAccounts(int accountNo, String accountName) {
         this.accountNo = accountNo;
         this.accountName = accountName;
@@ -41,58 +27,33 @@ public class BankAccounts {
         addTransaction("Account created");
     }
 
-    /**
-     * Get the account number
-     *
-     * @return The account number
-     */
+
     public int getAccountNo() {
         return accountNo;
     }
 
-    /**
-     * Get the account name
-     *
-     * @return The account name
-     */
+
     public String getAccountName() {
         return accountName;
     }
 
-    /**
-     * Get the account status
-     *
-     * @return The account status (active or closed)
-     */
     public String getStatus() {
         return status;
     }
 
-    /**
-     * Set the account number
-     *
-     * @param accountNo The new account number
-     */
+
     public void setAccountNo(int accountNo) {
         this.accountNo = accountNo;
         addTransaction("Account number updated to " + accountNo);
     }
 
-    /**
-     * Set the account name
-     *
-     * @param accountName The new account name
-     */
+
     public void setAccountName(String accountName) {
         this.accountName = accountName;
         addTransaction("Account name updated to " + accountName);
     }
 
-    /**
-     * Add a transaction to the history
-     *
-     * @param transaction The transaction description
-     */
+
     protected void addTransaction(String transaction) {
         if (transactionCount < MAX_TRANSACTIONS) {
             transactionHistory[transactionCount++] = transaction;
@@ -105,12 +66,6 @@ public class BankAccounts {
         }
     }
 
-    /**
-     * Deposit money into the account
-     *
-     * @param amount The amount to deposit
-     * @throws IllegalArgumentException if amount is negative or account is closed
-     */
     public void deposit(double amount) {
         if (status.equals("closed")) {
             throw new IllegalArgumentException("Cannot deposit to a closed account.");
@@ -124,12 +79,7 @@ public class BankAccounts {
         System.out.println("Current balance: " + balance);
     }
 
-    /**
-     * Withdraw money from the account
-     *
-     * @param amount The amount to withdraw
-     * @throws IllegalArgumentException if insufficient balance or account is closed
-     */
+
     public void withdraw(double amount) {
         if (status.equals("closed")) {
             throw new IllegalArgumentException("Cannot withdraw from a closed account.");
@@ -146,23 +96,13 @@ public class BankAccounts {
         System.out.println("Current balance: " + balance);
     }
 
-    /**
-     * Get the current balance
-     *
-     * @return The current balance
-     */
+
     public double inquireBalance() {
         System.out.println("Account #" + accountNo + " Balance: " + balance);
         return balance;
     }
 
-    /**
-     * Transfer money to another account
-     *
-     * @param acctno The account number to transfer to
-     * @param amount The amount to transfer
-     * @throws IllegalArgumentException if insufficient balance or invalid target account
-     */
+
     public void transferMoney(int acctno, double amount) {
         if (status.equals("closed")) {
             throw new IllegalArgumentException("Cannot transfer from a closed account.");
@@ -182,10 +122,7 @@ public class BankAccounts {
         System.out.println("Current balance: " + balance);
     }
 
-    /**
-     * Close the account
-     * Sets status to closed and withdraws all money
-     */
+
     public void closeAccount() {
         if (status.equals("closed")) {
             throw new IllegalArgumentException("Account is already closed.");
@@ -196,9 +133,7 @@ public class BankAccounts {
         System.out.println("Account #" + accountNo + " has been closed. All funds have been withdrawn.");
     }
 
-    /**
-     * Display transaction history
-     */
+
     public void displayTransactionHistory() {
         System.out.println("\n--- Transaction History for Account #" + accountNo + " ---");
         if (transactionCount == 0) {
@@ -210,11 +145,7 @@ public class BankAccounts {
         }
     }
 
-    /**
-     * String representation of the account
-     *
-     * @return Formatted account information
-     */
+
     @Override
     public String toString() {
         String accountInfo = "\n--- Account Information ---" +
@@ -228,27 +159,17 @@ public class BankAccounts {
         return accountInfo;
     }
 
-    /**
-     * Set the balance directly (protected method for subclasses)
-     *
-     * @param balance The new balance value
-     */
+
     protected void setBalance(double balance) {
         this.balance = balance;
     }
 
-    /**
-     * Set the status directly (protected method for subclasses)
-     *
-     * @param status The new status value
-     */
+
     protected void setStatus(String status) {
         this.status = status;
     }
 
-    /**
-     * Display account capabilities
-     */
+
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
         System.out.println("This Regular Bank Account allows:");
@@ -258,3 +179,4 @@ public class BankAccounts {
         System.out.println("- Balance inquiries");
     }
 }
+*/

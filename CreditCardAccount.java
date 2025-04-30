@@ -1,17 +1,9 @@
-/**
- * CreditCardAccount - A specialized bank account for credit card operations
- * Extends BankAccounts with credit card functionality
- *
- * @author Student
- * @version 1.1
- */
+/*
 public class CreditCardAccount extends BankAccounts {
     private double creditLimit;
     private double charges;
 
-    /**
-     * Default constructor
-     */
+
     public CreditCardAccount() {
         super();
         this.creditLimit = 0.0;
@@ -19,13 +11,7 @@ public class CreditCardAccount extends BankAccounts {
         addTransaction("Credit card account created");
     }
 
-    /**
-     * Parameterized constructor with charges
-     *
-     * @param accountNo   9-digit account number
-     * @param accountName Name of the account holder
-     * @param creditLimit Credit limit amount
-     */
+
     public CreditCardAccount(int accountNo, String accountName, double creditLimit) {
         super(accountNo, accountName);
         this.creditLimit = creditLimit;
@@ -33,14 +19,7 @@ public class CreditCardAccount extends BankAccounts {
         addTransaction("Credit card account created with credit limit: " + creditLimit);
     }
 
-    /**
-     * Parameterized constructor with charges
-     *
-     * @param accountNo   9-digit account number
-     * @param accountName Name of the account holder
-     * @param creditLimit Credit limit amount
-     * @param charges     Initial charges
-     */
+
     public CreditCardAccount(int accountNo, String accountName, double creditLimit, double charges) {
         super(accountNo, accountName);
         this.creditLimit = creditLimit;
@@ -49,30 +28,17 @@ public class CreditCardAccount extends BankAccounts {
                 " and initial charges: " + charges);
     }
 
-    /**
-     * Get the credit limit
-     *
-     * @return The credit limit
-     */
+
     public double getCreditLimit() {
         return creditLimit;
     }
 
-    /**
-     * Get the current charges
-     *
-     * @return The current charges
-     */
+
     public double getCharges() {
         return charges;
     }
 
-    /**
-     * Pay off card balance
-     *
-     * @param amount The amount to pay
-     * @throws IllegalArgumentException if amount exceeds charges
-     */
+
     public void payCard(double amount) {
         if (getStatus().equals("closed")) {
             throw new IllegalArgumentException("Cannot make payment on a closed account.");
@@ -91,11 +57,7 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-    /**
-     * Get the available credit
-     *
-     * @return The available credit
-     */
+
     public double inquireAvailableCredit() {
         double availableCredit = creditLimit - charges;
         System.out.println("Account #" + getAccountNo() + " Available Credit:" + availableCredit);
@@ -104,12 +66,7 @@ public class CreditCardAccount extends BankAccounts {
         return availableCredit;
     }
 
-    /**
-     * Charge an amount to the card
-     *
-     * @param amount The amount to charge
-     * @throws IllegalArgumentException if amount exceeds available credit
-     */
+
     public void chargeToCard(double amount) {
         if (getStatus().equals("closed")) {
             throw new IllegalArgumentException("Cannot charge to a closed account.");
@@ -129,12 +86,7 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-    /**
-     * Get a cash advance
-     *
-     * @param amount The amount to advance
-     * @throws IllegalArgumentException if amount exceeds 50% of available credit
-     */
+
     public void getCashAdvance(double amount) {
         if (getStatus().equals("closed")) {
             throw new IllegalArgumentException("Cannot get cash advance on a closed account.");
@@ -158,47 +110,26 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-    /**
-     * Deposit is not allowed for credit card accounts
-     *
-     * @param amount The amount to deposit
-     * @throws UnsupportedOperationException always
-     */
+
     @Override
     public void deposit(double amount) {
         throw new UnsupportedOperationException("Deposits are not allowed for Credit Card Accounts. " +
                 "Please use payCard instead.");
     }
 
-    /**
-     * Withdraw is not allowed for credit card accounts
-     *
-     * @param amount The amount to withdraw
-     * @throws UnsupportedOperationException always
-     */
+
     @Override
     public void withdraw(double amount) {
         throw new UnsupportedOperationException("Withdrawals are not allowed for Credit Card Accounts. " +
                 "Please use getCashAdvance instead.");
     }
 
-    /**
-     * Transfer is not allowed for credit card accounts
-     *
-     * @param acctno The account number to transfer to
-     * @param amount The amount to transfer
-     * @throws UnsupportedOperationException always
-     */
     @Override
     public void transferMoney(int acctno, double amount) {
         throw new UnsupportedOperationException("Transfers are not allowed for Credit Card Accounts.");
     }
 
-    /**
-     * String representation of the credit card account
-     *
-     * @return Formatted account information
-     */
+
     @Override
     public String toString() {
         String accountInfo = "\n--- Account Information ---" +
@@ -214,9 +145,6 @@ public class CreditCardAccount extends BankAccounts {
         return accountInfo;
     }
 
-    /**
-     * Display account capabilities
-     */
     @Override
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
@@ -233,3 +161,5 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("- Maximum cash advance available:" + ((creditLimit - charges) * 0.5));
     }
 }
+
+ */
