@@ -26,9 +26,8 @@ public class MainFrame extends JFrame {
         cards.add(new SearchAccountPanel(this), SEARCH);
         cards.add(new GenerateReportPanel(this), GENERATE);
 
-        // Create a panel for buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(0, 1)); // Vertical layout
+        buttonPanel.setLayout(new GridLayout(0, 1));
         buttonPanel.setBackground(Color.BLUE);
 
         JButton createBtn = new JButton("Create Account");
@@ -61,8 +60,8 @@ public class MainFrame extends JFrame {
 
         // Set layout for the main frame
         setLayout(new BorderLayout());
-        add(buttonPanel, BorderLayout.WEST); // Add button panel to the left
-        add(cards, BorderLayout.CENTER); // Add cards panel to the center
+        add(buttonPanel, BorderLayout.WEST);
+        add(cards, BorderLayout.CENTER);
 
         setVisible(true);
     }
