@@ -183,7 +183,6 @@ public class BankAccounts {
         System.out.println("- Balance inquiries");
     }
 
-
     public String[] getTransactionHistory() {
         return transactionHistory;
     }
@@ -197,7 +196,5 @@ public class BankAccounts {
             transactionHistory[index] = newEntry;
         }
     }
-
-
 }
 
