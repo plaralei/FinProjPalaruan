@@ -259,6 +259,7 @@ public class AccountsMain {
         return null; // Account not found
     }
 
+
     private static void generateReports(Scanner scanner) {
         System.out.println("1. Daily Transactions");
         System.out.println("2. Edit Transaction");
