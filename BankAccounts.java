@@ -1,4 +1,6 @@
-/*
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class BankAccounts {
     private int accountNo; // 9 digits
     private String accountName;
@@ -55,16 +57,18 @@ public class BankAccounts {
 
 
     protected void addTransaction(String transaction) {
+        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String entry = timestamp + " - " + transaction;
         if (transactionCount < MAX_TRANSACTIONS) {
-            transactionHistory[transactionCount++] = transaction;
+            transactionHistory[transactionCount++] = entry;
         } else {
-            // Shift transactions to make room for the new one
             for (int i = 0; i < MAX_TRANSACTIONS - 1; i++) {
                 transactionHistory[i] = transactionHistory[i + 1];
             }
-            transactionHistory[MAX_TRANSACTIONS - 1] = transaction;
+            transactionHistory[MAX_TRANSACTIONS - 1] = entry;
         }
     }
+
 
     public void deposit(double amount) {
         if (status.equals("closed")) {
@@ -178,5 +182,22 @@ public class BankAccounts {
         System.out.println("- Money transfers to other accounts");
         System.out.println("- Balance inquiries");
     }
+
+
+    public String[] getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    public int getTransactionCount() {
+        return transactionCount;
+    }
+
+    public void editTransaction(int index, String newEntry) {
+        if (index >= 0 && index < transactionCount) {
+            transactionHistory[index] = newEntry;
+        }
+    }
+
+
 }
-*/
+
