@@ -1,55 +1,45 @@
 package Group2BankSystem;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TransactionManager {
-    private static final String TRANSACTIONS_FILE = "transactions.dat";
-    private static List<GenerateReportPanel.Transaction> transactions;
+    private static final String FILE_NAME = "transactions.txt";
+    private static List<Transaction> transactions = new ArrayList<>();
 
-    static {
-        transactions = loadTransactions();
+    public static void saveTransaction(Transaction t) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(FILE_NAME, true))) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            out.println(t.transactionId + "," + df.format(t.date) + "," + t.accountNumber + "," + t.type + "," + t.amount + "," + t.description);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static List<GenerateReportPanel.Transaction> getTransactions() {
+    public static List<Transaction> loadTransactions() {
+        transactions.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",", -1);
+                if (parts.length == 6) {
+                    String id = parts[0];
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(parts[1]);
+                    String accountNumber = parts[2];
+                    String type = parts[3];
+                    double amount = Double.parseDouble(parts[4]);
+                    String description = parts[5];
+                    transactions.add(new Transaction(id, date, accountNumber, type, amount, description));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return transactions;
     }
 
-    public static void addTransaction(String accountNumber, String type, double amount, String description) {
-        String transactionId = generateTransactionId();
-        GenerateReportPanel.Transaction transaction = new GenerateReportPanel.Transaction(
-                transactionId, new Date(), accountNumber, type, amount, description
-        );
-        transactions.add(transaction);
-        saveTransactions();
-    }
-
-    private static String generateTransactionId() {
-        return "TXN" + System.currentTimeMillis() + (int)(Math.random() * 1000);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<GenerateReportPanel.Transaction> loadTransactions() {
-        List<GenerateReportPanel.Transaction> loadedTransactions = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(TRANSACTIONS_FILE))) {
-            loadedTransactions = (List<GenerateReportPanel.Transaction>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println("No transactions file found. Starting with empty transactions list.");
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error loading transactions: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return loadedTransactions;
-    }
-
-    private static void saveTransactions() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(TRANSACTIONS_FILE))) {
-            oos.writeObject(transactions);
-        } catch (IOException e) {
-            System.err.println("Error saving transactions: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public static List<Transaction> getTransactions() {
+        return loadTransactions();
     }
 }

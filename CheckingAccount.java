@@ -1,4 +1,3 @@
-/*
 public class CheckingAccount extends BankAccounts {
     private double minimumBalance;
 
@@ -64,7 +63,7 @@ public class CheckingAccount extends BankAccounts {
                 "\nAvailable for encashment: " + (super.inquireBalance() - minimumBalance) +
                 "\nStatus: " + getStatus();
     }
-    
+
 
     @Override
     public void displayCapabilities() {
@@ -80,4 +79,4 @@ public class CheckingAccount extends BankAccounts {
         System.out.println("- Available for encashment:" + (super.inquireBalance() - minimumBalance));
     }
 }
-*/
+

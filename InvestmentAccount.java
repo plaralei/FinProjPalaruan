@@ -1,4 +1,3 @@
-/*
 public class InvestmentAccount extends BankAccounts {
     private final double minimumBalance;
     private final double interest; // Interest rate (e.g., 0.10 for 10%)
@@ -111,5 +110,3 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("- Minimum balance requirement:" + minimumBalance);
     }
 }
-
- */

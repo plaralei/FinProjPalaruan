@@ -1,4 +1,3 @@
-/*
 public class CreditCardAccount extends BankAccounts {
     private double creditLimit;
     private double charges;
@@ -161,5 +160,3 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("- Maximum cash advance available:" + ((creditLimit - charges) * 0.5));
     }
 }
-
- */
