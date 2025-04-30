@@ -1,7 +1,7 @@
 package Group2BankSystem;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class MainFrame extends JFrame {
     private CardLayout layout;
@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
         cards = new JPanel(layout);
 
         cards.add(new CreateAccountPanel(this), CREATE);
-        cards.add(new ManageAccountPanel(this), MANAGE); // Use a JPanel instead of JDialog
+        cards.add(new ManageAccountPanel(this), MANAGE);
         cards.add(new SearchAccountPanel(this), SEARCH);
         cards.add(new GenerateReportPanel(this), GENERATE);
 
@@ -68,10 +68,12 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public void show(String create) {
+    public void show(String card) {
+        layout.show(cards, card);
     }
 
-    public void showCard(String menu) {
+    public void showCard(String card) {
+        layout.show(cards, card);
     }
 }
 

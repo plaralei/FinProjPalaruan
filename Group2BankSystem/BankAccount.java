@@ -1,6 +1,6 @@
 package Group2BankSystem;
 
-
+import Group2BankSystem.exceptions.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -96,9 +96,15 @@ public class BankAccount implements Serializable {
 
     // Common account operations
     public boolean deposit(double amount) {
-        if (amount <= 0) {
-            return false;
+        if (!isActive) {
+            throw new AccountClosedException(accountNumber, "deposit");
         }
+        
+        if (amount <= 0) {
+            throw new InvalidAmountException(amount, "deposit", 
+                "Deposit amount must be greater than zero");
+        }
+        
         balance += amount;
         updateLastModifiedDate();
         return true;
@@ -106,9 +112,19 @@ public class BankAccount implements Serializable {
 
 
     public boolean withdraw(double amount) {
-        if (amount <= 0 || amount > balance) {
-            return false;
+        if (!isActive) {
+            throw new AccountClosedException(accountNumber, "withdrawal");
         }
+        
+        if (amount <= 0) {
+            throw new InvalidAmountException(amount, "withdrawal", 
+                "Withdrawal amount must be greater than zero");
+        }
+        
+        if (amount > balance) {
+            throw new InsufficientFundsException(accountNumber, amount, balance);
+        }
+        
         balance -= amount;
         updateLastModifiedDate();
         return true;
@@ -116,9 +132,33 @@ public class BankAccount implements Serializable {
 
 
     public boolean transfer(BankAccount targetAccount, double amount) {
-        if (amount <= 0 || amount > balance || !isActive || !targetAccount.isActive()) {
-            return false;
+        if (!isActive) {
+            throw new AccountClosedException(accountNumber, "transfer");
         }
+        
+        if (targetAccount == null) {
+            throw new InvalidAccountException("unknown", "Target account does not exist");
+        }
+        
+        if (!targetAccount.isActive()) {
+            throw new AccountClosedException(targetAccount.getAccountNumber(), "transfer to");
+        }
+        
+        if (amount <= 0) {
+            throw new InvalidAmountException(amount, "transfer", 
+                "Transfer amount must be greater than zero");
+        }
+        
+        if (amount > balance) {
+            throw new InsufficientFundsException(accountNumber, amount, balance);
+        }
+        
+        // Check for any transaction limits (example: limit of $10,000 per transfer)
+        double transferLimit = 10000.0;  // This could be a property of the account
+        if (amount > transferLimit) {
+            throw new TransactionLimitException(accountNumber, "transfer", amount, transferLimit);
+        }
+        
         balance -= amount;
         targetAccount.deposit(amount);
         updateLastModifiedDate();
@@ -127,6 +167,9 @@ public class BankAccount implements Serializable {
 
 
     public void closeAccount() {
+        if (!isActive) {
+            throw new AccountClosedException(accountNumber, "close");
+        }
         isActive = false;
         updateLastModifiedDate();
     }

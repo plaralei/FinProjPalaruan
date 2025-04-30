@@ -1,10 +1,8 @@
 package Group2BankSystem;
 
-import javax.swing.*;
+import Group2BankSystem.exceptions.*;
 import java.awt.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
 
 public class CreateAccountPanel extends JPanel {
     protected static final String DATA_FILE = "accounts.dat";
@@ -43,12 +41,45 @@ public class CreateAccountPanel extends JPanel {
             String depositStr = depositField.getText();
             String type = (String) typeBox.getSelectedItem();
 
-            BankAccount newAccount = AccountFactory.createAccount(getFormattedAccountNumber(nextAccountNumber++), name, Double.parseDouble(depositStr), type);
+            try {
+                // Validate input
+                if (name == null || name.trim().isEmpty()) {
+                    throw new IllegalArgumentException("Account holder name is required");
+                }
 
-            saveAccount(newAccount);
+                double depositAmount;
+                try {
+                    depositAmount = Double.parseDouble(depositStr);
+                } catch (NumberFormatException ex) {
+                    throw new InvalidAmountException(0, "initial deposit", "Invalid deposit amount format");
+                }
 
-            JOptionPane.showMessageDialog(this,
-                    "Account created!\nName: " + name + "\nType: " + type + "\nDeposit: " + depositStr + "\nAccount Number: " + newAccount.getAccountNumber());
+                if (depositAmount <= 0) {
+                    throw new InvalidAmountException(depositAmount, "initial deposit", 
+                        "Initial deposit amount must be greater than zero");
+                }
+
+                // Create the account using our factory
+                BankAccount newAccount = AccountFactory.createAccount(
+                    getFormattedAccountNumber(nextAccountNumber++), name, depositAmount, type);
+
+                saveAccount(newAccount);
+
+                JOptionPane.showMessageDialog(this,
+                        "Account created!\nName: " + name + "\nType: " + type + 
+                        "\nDeposit: " + depositStr + "\nAccount Number: " + newAccount.getAccountNumber());
+                
+                // Clear the form
+                nameField.setText("");
+                depositField.setText("");
+                
+            } catch (InvalidAmountException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), 
+                    "Invalid Amount Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error creating account: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         buttons.add(backBtn);
