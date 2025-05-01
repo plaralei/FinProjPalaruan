@@ -1,7 +1,9 @@
+import exceptions.AccountClosedException;
+import exceptions.InvalidAmountException;
+
 public class CreditCardAccount extends BankAccounts {
     private double creditLimit;
     private double charges;
-
 
     public CreditCardAccount() {
         super();
@@ -10,14 +12,12 @@ public class CreditCardAccount extends BankAccounts {
         addTransaction("Credit card account created");
     }
 
-
     public CreditCardAccount(int accountNo, String accountName, double creditLimit) {
         super(accountNo, accountName);
         this.creditLimit = creditLimit;
         this.charges = 0.0;
         addTransaction("Credit card account created with credit limit: " + creditLimit);
     }
-
 
     public CreditCardAccount(int accountNo, String accountName, double creditLimit, double charges) {
         super(accountNo, accountName);
@@ -27,26 +27,24 @@ public class CreditCardAccount extends BankAccounts {
                 " and initial charges: " + charges);
     }
 
-
     public double getCreditLimit() {
         return creditLimit;
     }
-
 
     public double getCharges() {
         return charges;
     }
 
-
     public void payCard(double amount) {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Cannot make payment on a closed account.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "payment");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Payment amount must be positive.");
+            throw new InvalidAmountException(amount, "card payment");
         }
         if (amount > charges) {
-            throw new IllegalArgumentException("Payment exceeds current charges (" + charges + ").");
+            throw new InvalidAmountException(amount, "card payment", 
+                "Payment exceeds current charges (" + charges + ").");
         }
 
         charges -= amount;
@@ -56,7 +54,6 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-
     public double inquireAvailableCredit() {
         double availableCredit = creditLimit - charges;
         System.out.println("Account #" + getAccountNo() + " Available Credit:" + availableCredit);
@@ -65,17 +62,16 @@ public class CreditCardAccount extends BankAccounts {
         return availableCredit;
     }
 
-
     public void chargeToCard(double amount) {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Cannot charge to a closed account.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "charge");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Charge amount must be positive.");
+            throw new InvalidAmountException(amount, "card charge");
         }
         if (amount > (creditLimit - charges)) {
-            throw new IllegalArgumentException("Charge exceeds available credit (" +
-                    (creditLimit - charges) + ").");
+            throw new InvalidAmountException(amount, "card charge",
+                "Charge exceeds available credit (" + (creditLimit - charges) + ").");
         }
 
         charges += amount;
@@ -85,21 +81,20 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-
     public void getCashAdvance(double amount) {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Cannot get cash advance on a closed account.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "cash advance");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Cash advance amount must be positive.");
+            throw new InvalidAmountException(amount, "cash advance");
         }
 
         double availableCredit = creditLimit - charges;
         double maxAdvance = availableCredit * 0.5;
 
         if (amount > maxAdvance) {
-            throw new IllegalArgumentException("Cash advance exceeds 50% of available credit (" +
-                    maxAdvance + ").");
+            throw new InvalidAmountException(amount, "cash advance",
+                "Cash advance exceeds 50% of available credit (" + maxAdvance + ").");
         }
 
         charges += amount;
@@ -109,13 +104,11 @@ public class CreditCardAccount extends BankAccounts {
         System.out.println("Available credit: " + (creditLimit - charges));
     }
 
-
     @Override
     public void deposit(double amount) {
         throw new UnsupportedOperationException("Deposits are not allowed for Credit Card Accounts. " +
                 "Please use payCard instead.");
     }
-
 
     @Override
     public void withdraw(double amount) {
@@ -127,7 +120,6 @@ public class CreditCardAccount extends BankAccounts {
     public void transferMoney(int acctno, double amount) {
         throw new UnsupportedOperationException("Transfers are not allowed for Credit Card Accounts.");
     }
-
 
     @Override
     public String toString() {

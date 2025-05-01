@@ -1,10 +1,5 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import exceptions.*;
 import java.util.Scanner;
-import java.util.ArrayList.*;
-import java.util.Arrays.*;
-import java.util.List.*;
 
 public class AccountsMain {
     private static BankAccounts[] bankAccounts = new BankAccounts[5];
@@ -19,6 +14,7 @@ public class AccountsMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int choice;
+        // Testingg
         do {
             System.out.println("\n--- Bank Account Management System ---");
             System.out.println("1. Create Bank Account");
@@ -31,7 +27,6 @@ public class AccountsMain {
             System.out.println("8. Transfer Money");
             System.out.println("9. Display Account Information");
             System.out.println("10. Close Account");
-            System.out.println("11. Generate Reports");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
@@ -67,9 +62,6 @@ public class AccountsMain {
                 case 10:
                     closeAccount(scanner);
                     break;
-                case 11:
-                    generateReports(scanner);
-                    break;
                 case 0:
                     System.out.println("Exiting the system. Thank you!");
                     break;
@@ -102,7 +94,7 @@ public class AccountsMain {
         }
         System.out.print("Enter Account Number (9 digits): ");
         int accountNo = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
         System.out.print("Enter Account Name: ");
         String accountName = scanner.nextLine();
         System.out.print("Enter Minimum Balance: ");
@@ -134,9 +126,9 @@ public class AccountsMain {
             System.out.println("Credit card account limit reached.");
             return;
         }
-                System.out.print("Enter Account Number (9 digits): ");
+        System.out.print("Enter Account Number (9 digits): ");
         int accountNo = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume newline
         System.out.print("Enter Account Name: ");
         String accountName = scanner.nextLine();
         System.out.print("Enter Credit Limit: ");
@@ -163,8 +155,14 @@ public class AccountsMain {
         if (account != null) {
             System.out.print("Enter Deposit Amount: ");
             double amount = scanner.nextDouble();
-            account.deposit(amount);
-            System.out.println("Deposit successful. New Balance: " + account.inquireBalance());
+            try {
+                account.deposit(amount);
+                System.out.println("Deposit successful. New Balance: " + account.inquireBalance());
+            } catch (AccountClosedException | InvalidAmountException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+            }
         } else {
             System.out.println("Account not found.");
         }
@@ -180,8 +178,13 @@ public class AccountsMain {
             try {
                 account.withdraw(amount);
                 System.out.println("Withdrawal successful. New Balance: " + account.inquireBalance());
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+            } catch (InsufficientFundsException e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Shortage amount: PHP " + e.getShortageAmount());
+            } catch (AccountClosedException | InvalidAmountException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
             }
         } else {
             System.out.println("Account not found.");
@@ -199,10 +202,19 @@ public class AccountsMain {
             if (toAccount != null) {
                 System.out.print("Enter Transfer Amount: ");
                 double amount = scanner.nextDouble();
-                try {fromAccount.transferMoney(toAccountNo, amount);
+                try {
+                    fromAccount.transferMoney(toAccountNo, amount);
                     System.out.println("Transfer successful. New Balance: " + fromAccount.inquireBalance());
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
+                } catch (InsufficientFundsException e) {
+                    System.out.println("Error: " + e.getMessage());
+                    System.out.println("Shortage amount: PHP " + e.getShortageAmount());
+                } catch (TransactionLimitException e) {
+                    System.out.println("Error: " + e.getMessage());
+                    System.out.println("Maximum allowed transfer: PHP " + e.getLimitAmount());
+                } catch (AccountClosedException | InvalidAmountException e) {
+                    System.out.println("Error: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("Unexpected error: " + e.getMessage());
                 }
             } else {
                 System.out.println("Target account not found.");
@@ -228,8 +240,14 @@ public class AccountsMain {
         int accountNo = scanner.nextInt();
         BankAccounts account = findAccount(accountNo);
         if (account != null) {
-            account.closeAccount();
-            System.out.println("Account closed successfully.");
+            try {
+                account.closeAccount();
+                System.out.println("Account closed successfully.");
+            } catch (AccountClosedException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Error closing account: " + e.getMessage());
+            }
         } else {
             System.out.println("Account not found.");
         }
@@ -257,56 +275,5 @@ public class AccountsMain {
             }
         }
         return null; // Account not found
-    }
-
-
-    private static void generateReports(Scanner scanner) {
-        System.out.println("1. Daily Transactions");
-        System.out.println("2. Edit Transaction");
-        System.out.println("3. Summary By Type");
-        System.out.println("4. Search By Keyword");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        List<BankAccounts> allAccounts = new ArrayList<>();
-        Collections.addAll(allAccounts, bankAccounts);
-        Collections.addAll(allAccounts, investmentAccounts);
-        Collections.addAll(allAccounts, checkingAccounts);
-        Collections.addAll(allAccounts, creditCardAccounts);
-
-        switch (choice) {
-            case 1:
-                generateReport.dailyTransactions(allAccounts);
-                break;
-            case 2:
-                System.out.print("Enter account number: ");
-                int accNo = scanner.nextInt();
-                scanner.nextLine();
-                BankAccounts account = findAccount(accNo);
-                if (account != null) {
-                    account.displayTransactionHistory();
-                    System.out.print("Which transaction to edit? ");
-                    int index = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Enter new transaction content: ");
-                    String newEntry = scanner.nextLine();
-                    generateReport.editTransaction(allAccounts, accNo,index, newEntry);
-                } else {
-                    System.out.println("Account not found.");
-                }
-                break;
-            case 3:
-                System.out.print("Enter transaction type keyword: ");
-                String type = scanner.nextLine();
-                generateReport.summaryByType(allAccounts, type);
-                break;
-            case 4:
-                System.out.print("Enter keyword to search: ");
-                String keyword = scanner.nextLine();
-                generateReport.keywordSearch(allAccounts, keyword);
-                break;
-            default:
-                System.out.println("Invalid report option.");
-        }
     }
 }

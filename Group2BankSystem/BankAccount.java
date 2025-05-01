@@ -1,6 +1,6 @@
 package Group2BankSystem;
 
-import Group2BankSystem.exceptions.*;
+import exceptions.*;
 import java.io.Serializable;
 import java.util.Date;
 

@@ -1,3 +1,7 @@
+import exceptions.AccountClosedException;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
+
 public class CheckingAccount extends BankAccounts {
     private double minimumBalance;
 
@@ -7,33 +11,30 @@ public class CheckingAccount extends BankAccounts {
         addTransaction("Checking account created");
     }
 
-
     public CheckingAccount(int accountNo, String accountName, double minimumBalance) {
         super(accountNo, accountName);
         this.minimumBalance = minimumBalance;
         addTransaction("Checking account created with minimum balance: " + minimumBalance);
     }
 
-
     public double getMinimumBalance() {
         return minimumBalance;
     }
 
-
     public void encashCheck(double amount) {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Cannot encash check on a closed account.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "encash check");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Check amount must be positive.");
+            throw new InvalidAmountException(amount, "check encashment");
         }
         if (amount > super.inquireBalance()) {
-            throw new IllegalArgumentException("Insufficient balance to encash the check. Current balance: " + super.inquireBalance());
+            throw new InsufficientFundsException(String.valueOf(getAccountNo()), amount, super.inquireBalance());
         }
         if ((super.inquireBalance() - amount) < minimumBalance) {
-            throw new IllegalArgumentException("Encashing would drop balance below minimum required (" +
-                    minimumBalance + "). Available for encashment: " +
-                    (super.inquireBalance() - minimumBalance));
+            throw new InvalidAmountException(amount, "check encashment", 
+                "Encashing would drop balance below minimum required (" + minimumBalance + 
+                "). Available for encashment: " + (super.inquireBalance() - minimumBalance));
         }
 
         // Use setBalance to avoid the withdraw override
@@ -44,13 +45,11 @@ public class CheckingAccount extends BankAccounts {
         System.out.println("Available for encashment: " + (super.inquireBalance() - minimumBalance));
     }
 
-
     @Override
     public void withdraw(double amount) {
         throw new UnsupportedOperationException("Direct withdrawals are not allowed for Checking Accounts. " +
                 "Please use encashCheck instead.");
     }
-
 
     @Override
     public String toString() {
@@ -63,8 +62,7 @@ public class CheckingAccount extends BankAccounts {
                 "\nAvailable for encashment: " + (super.inquireBalance() - minimumBalance) +
                 "\nStatus: " + getStatus();
     }
-
-
+    
     @Override
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
@@ -79,4 +77,3 @@ public class CheckingAccount extends BankAccounts {
         System.out.println("- Available for encashment:" + (super.inquireBalance() - minimumBalance));
     }
 }
-

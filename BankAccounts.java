@@ -1,5 +1,7 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import exceptions.AccountClosedException;
+import exceptions.InsufficientFundsException;
+import exceptions.InvalidAmountException;
+import exceptions.TransactionLimitException;
 
 public class BankAccounts {
     private int accountNo; // 9 digits
@@ -10,14 +12,12 @@ public class BankAccounts {
     private int transactionCount;
     private static final int MAX_TRANSACTIONS = 10;
 
-
     public BankAccounts() {
         this.status = "active";
         this.balance = 0.0;
         this.transactionHistory = new String[MAX_TRANSACTIONS];
         this.transactionCount = 0;
     }
-
 
     public BankAccounts(int accountNo, String accountName) {
         this.accountNo = accountNo;
@@ -29,11 +29,9 @@ public class BankAccounts {
         addTransaction("Account created");
     }
 
-
     public int getAccountNo() {
         return accountNo;
     }
-
 
     public String getAccountName() {
         return accountName;
@@ -43,79 +41,77 @@ public class BankAccounts {
         return status;
     }
 
-
     public void setAccountNo(int accountNo) {
         this.accountNo = accountNo;
         addTransaction("Account number updated to " + accountNo);
     }
-
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
         addTransaction("Account name updated to " + accountName);
     }
 
-
     protected void addTransaction(String transaction) {
-        String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String entry = timestamp + " - " + transaction;
         if (transactionCount < MAX_TRANSACTIONS) {
-            transactionHistory[transactionCount++] = entry;
+            transactionHistory[transactionCount++] = transaction;
         } else {
+            // Shift transactions to make room for the new one
             for (int i = 0; i < MAX_TRANSACTIONS - 1; i++) {
                 transactionHistory[i] = transactionHistory[i + 1];
             }
-            transactionHistory[MAX_TRANSACTIONS - 1] = entry;
+            transactionHistory[MAX_TRANSACTIONS - 1] = transaction;
         }
     }
-
 
     public void deposit(double amount) {
         if (status.equals("closed")) {
-            throw new IllegalArgumentException("Cannot deposit to a closed account.");
+            throw new AccountClosedException(String.valueOf(accountNo), "deposit");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Deposit amount must be positive.");
+            throw new InvalidAmountException(amount, "deposit");
         }
         balance += amount;
         addTransaction("Deposited " + amount + ". New balance: " + balance);
-        System.out.println("Successfully deposited" + amount);
+        System.out.println("Successfully deposited " + amount);
         System.out.println("Current balance: " + balance);
     }
-
 
     public void withdraw(double amount) {
         if (status.equals("closed")) {
-            throw new IllegalArgumentException("Cannot withdraw from a closed account.");
+            throw new AccountClosedException(String.valueOf(accountNo), "withdrawal");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+            throw new InvalidAmountException(amount, "withdrawal");
         }
         if (amount > balance) {
-            throw new IllegalArgumentException("Insufficient balance for withdrawal. Current balance: " + balance);
+            throw new InsufficientFundsException(String.valueOf(accountNo), amount, balance);
         }
         balance -= amount;
-        addTransaction("Withdrew" + amount + ". New balance: " + balance);
-        System.out.println("Successfully withdrew" + amount);
+        addTransaction("Withdrew " + amount + ". New balance: " + balance);
+        System.out.println("Successfully withdrew " + amount);
         System.out.println("Current balance: " + balance);
     }
-
 
     public double inquireBalance() {
         System.out.println("Account #" + accountNo + " Balance: " + balance);
         return balance;
     }
 
-
     public void transferMoney(int acctno, double amount) {
         if (status.equals("closed")) {
-            throw new IllegalArgumentException("Cannot transfer from a closed account.");
+            throw new AccountClosedException(String.valueOf(accountNo), "transfer");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Transfer amount must be positive.");
+            throw new InvalidAmountException(amount, "transfer");
         }
         if (amount > balance) {
-            throw new IllegalArgumentException("Insufficient balance for transfer. Current balance: " + balance);
+            throw new InsufficientFundsException(String.valueOf(accountNo), amount, balance);
+        }
+
+        // Check for any transaction limits (example: limit of PHP 10,000 per transfer)
+        double transferLimit = 10000.0;  // This could be a property of the account
+        if (amount > transferLimit) {
+            throw new TransactionLimitException(String.valueOf(accountNo), "transfer", amount, transferLimit);
         }
 
         // Note: In the actual implementation, the AccountsMain class will handle finding
@@ -126,17 +122,15 @@ public class BankAccounts {
         System.out.println("Current balance: " + balance);
     }
 
-
     public void closeAccount() {
         if (status.equals("closed")) {
-            throw new IllegalArgumentException("Account is already closed.");
+            throw new AccountClosedException(String.valueOf(accountNo), "close");
         }
         addTransaction("Account closed. Final balance:" + balance);
         this.status = "closed";
         this.balance = 0.0;
         System.out.println("Account #" + accountNo + " has been closed. All funds have been withdrawn.");
     }
-
 
     public void displayTransactionHistory() {
         System.out.println("\n--- Transaction History for Account #" + accountNo + " ---");
@@ -148,7 +142,6 @@ public class BankAccounts {
             }
         }
     }
-
 
     @Override
     public String toString() {
@@ -163,16 +156,13 @@ public class BankAccounts {
         return accountInfo;
     }
 
-
     protected void setBalance(double balance) {
         this.balance = balance;
     }
 
-
     protected void setStatus(String status) {
         this.status = status;
     }
-
 
     public void displayCapabilities() {
         System.out.println("\n--- Account Capabilities ---");
@@ -181,20 +171,6 @@ public class BankAccounts {
         System.out.println("- Withdrawals");
         System.out.println("- Money transfers to other accounts");
         System.out.println("- Balance inquiries");
-    }
-
-    public String[] getTransactionHistory() {
-        return transactionHistory;
-    }
-
-    public int getTransactionCount() {
-        return transactionCount;
-    }
-
-    public void editTransaction(int index, String newEntry) {
-        if (index >= 0 && index < transactionCount) {
-            transactionHistory[index] = newEntry;
-        }
     }
 }
 

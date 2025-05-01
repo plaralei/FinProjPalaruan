@@ -1,7 +1,9 @@
+import exceptions.AccountClosedException;
+import exceptions.InvalidAmountException;
+
 public class InvestmentAccount extends BankAccounts {
     private final double minimumBalance;
     private final double interest; // Interest rate (e.g., 0.10 for 10%)
-
 
     public InvestmentAccount() {
         super();
@@ -9,7 +11,6 @@ public class InvestmentAccount extends BankAccounts {
         this.interest = 0.0;
         addTransaction("Investment account created");
     }
-
 
     public InvestmentAccount(int accountNo, String accountName, double minimumBalance, double interest) {
         super(accountNo, accountName);
@@ -19,23 +20,20 @@ public class InvestmentAccount extends BankAccounts {
                 " and interest rate: " + (interest * 100) + "%");
     }
 
-
     public double getMinimumBalance() {
         return minimumBalance;
     }
-
 
     public double getInterest() {
         return interest;
     }
 
-
     public void addInvestment(double amount) {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Cannot add investment to a closed account.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "add investment");
         }
         if (amount <= 0) {
-            throw new IllegalArgumentException("Investment amount must be positive.");
+            throw new InvalidAmountException(amount, "investment");
         }
         super.setBalance(super.inquireBalance() + amount);
         addTransaction("Investment of " + amount + " added. New balance: " + super.inquireBalance());
@@ -44,7 +42,6 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("Current investment value: " + inquireInvestmentValue());
     }
 
-
     public double inquireInvestmentValue() {
         double currentValue = super.inquireBalance() * (1 + interest);
         System.out.println("Account #" + getAccountNo() + " Investment Value: " + currentValue +
@@ -52,11 +49,10 @@ public class InvestmentAccount extends BankAccounts {
         return currentValue;
     }
 
-
     @Override
     public void closeAccount() {
         if (getStatus().equals("closed")) {
-            throw new IllegalArgumentException("Account is already closed.");
+            throw new AccountClosedException(String.valueOf(getAccountNo()), "close");
         }
         double finalValue = super.inquireBalance() * (1 + interest);
         addTransaction("Account closed. Final investment value: " + finalValue);
@@ -66,13 +62,11 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println("Final investment value withdrawn: " + finalValue);
     }
 
-
     @Override
     public void withdraw(double amount) {
         throw new UnsupportedOperationException("Withdrawals are not allowed for Investment Accounts. " +
                 "You can only close the account to withdraw funds.");
     }
-
 
     @Override
     public void transferMoney(int acctno, double amount) {
@@ -95,7 +89,6 @@ public class InvestmentAccount extends BankAccounts {
         System.out.println(accountInfo);
         return accountInfo;
     }
-
 
     @Override
     public void displayCapabilities() {
